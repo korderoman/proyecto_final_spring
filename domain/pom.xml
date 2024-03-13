@@ -6,7 +6,7 @@
         <artifactId>ecommerce</artifactId>
         <version>0.0.1-SNAPSHOT</version>
     </parent>
-    <groupId>com.panda</groupId>
+    <version>0.0.1</version>
     <artifactId>domain</artifactId>
     <name>Archetype - domain</name>
     <url>http://maven.apache.org</url>

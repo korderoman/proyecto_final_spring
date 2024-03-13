@@ -6,8 +6,16 @@
         <artifactId>ecommerce</artifactId>
         <version>0.0.1-SNAPSHOT</version>
     </parent>
-    <groupId>com.panda</groupId>
     <artifactId>infraestructure</artifactId>
+    <version>0.0.1</version>
     <name>Archetype - infraestructure</name>
     <url>http://maven.apache.org</url>
+
+    <dependencies>
+        <dependency>
+            <groupId>org.grupo3</groupId>
+            <artifactId>domain</artifactId>
+            <version>0.0.1</version>
+        </dependency>
+    </dependencies>
 </project>
