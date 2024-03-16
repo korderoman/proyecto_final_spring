@@ -11,8 +11,6 @@ CREATE TABLE direccion (
                            codigo_postal VARCHAR(20),
                            telefono_cont VARCHAR(20),
                            email VARCHAR(255),
-                           fec_ini_vlg TIMESTAMP,
-                           fec_fin_vlg TIMESTAMP,
                            estado INT NOT NULL,
                            usua_crea VARCHAR(45),
                            date_create TIMESTAMP,
