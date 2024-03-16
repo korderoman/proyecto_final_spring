@@ -1,25 +1,7 @@
-DROP TABLE IF EXISTS cliente;
-CREATE TABLE cliente (
-                                 id_cliente SERIAL PRIMARY key,
-                                 dni VARCHAR(20) NOT NULL,
-                                 nombres VARCHAR(100) NOT NULL,
-                                 ape_paterno VARCHAR(100) NOT NULL,
-                                 ape_materno VARCHAR(100) NOT NULL,
-                                 estado INT NOT NULL,
-                                 usua_crea VARCHAR(45),
-                                 date_create TIMESTAMP,
-                                 usua_modif VARCHAR(45),
-                                 date_modif TIMESTAMP,
-                                 usua_delet VARCHAR(45),
-                                 date_delet TIMESTAMP,
-                                 CONSTRAINT uq_cliente_dni UNIQUE (dni)
-);
-
 -- Crear tabla direccion
 DROP TABLE IF EXISTS direccion;
 CREATE TABLE direccion (
                            id_direccion SERIAL PRIMARY KEY,
-                           id_cliente INT ,
                            direccion TEXT NOT NULL,
                            ciudad VARCHAR(100) NOT NULL,
                            provincia VARCHAR(100) NOT NULL,
@@ -38,9 +20,29 @@ CREATE TABLE direccion (
                            date_modif TIMESTAMP,
                            usua_delet VARCHAR(45),
                            date_delet TIMESTAMP,
-                           CONSTRAINT uq_direccion_email UNIQUE (email),
-                           FOREIGN KEY (id_cliente) REFERENCES cliente(id_cliente) ON DELETE SET NULL
+                           CONSTRAINT uq_direccion_email UNIQUE (email)
 );
+
+DROP TABLE IF EXISTS cliente;
+CREATE TABLE cliente (
+                                 id_cliente SERIAL PRIMARY key,
+                                 id_direccion int,
+                                 dni VARCHAR(20) NOT NULL,
+                                 nombres VARCHAR(100) NOT NULL,
+                                 ape_paterno VARCHAR(100) NOT NULL,
+                                 ape_materno VARCHAR(100) NOT NULL,
+                                 estado INT NOT NULL,
+                                 usua_crea VARCHAR(45),
+                                 date_create TIMESTAMP,
+                                 usua_modif VARCHAR(45),
+                                 date_modif TIMESTAMP,
+                                 usua_delet VARCHAR(45),
+                                 date_delet TIMESTAMP,
+                                 CONSTRAINT uq_cliente_dni UNIQUE (dni),
+                                 FOREIGN KEY (id_direccion) REFERENCES direccion(id_direccion) ON DELETE SET NULL
+);
+
+
 
 DROP TABLE IF EXISTS rol;
 CREATE TABLE rol (
