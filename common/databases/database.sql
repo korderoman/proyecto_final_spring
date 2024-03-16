@@ -60,7 +60,7 @@ drop table if exists rol_cliente;
 create table rol_cliente(
                             id_rol_cliente SERIAL primary KEY,
                             id_rol int,
-                            id_cliente int,
+                            id_user int,
                             estado INT NOT NULL,
                             usua_crea VARCHAR(45),
                             date_create TIMESTAMP,
