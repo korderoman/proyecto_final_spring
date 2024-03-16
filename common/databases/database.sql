@@ -1,5 +1,5 @@
-DROP TABLE IF EXISTS cliente_persona;
-CREATE TABLE cliente_persona (
+DROP TABLE IF EXISTS cliente;
+CREATE TABLE cliente (
                                  id_cliente SERIAL PRIMARY key,
                                  dni VARCHAR(20) NOT NULL,
                                  nombres VARCHAR(100) NOT NULL,
@@ -39,7 +39,7 @@ CREATE TABLE direccion (
                            usua_delet VARCHAR(45),
                            date_delet TIMESTAMP,
                            CONSTRAINT uq_direccion_email UNIQUE (email),
-                           FOREIGN KEY (id_cliente) REFERENCES cliente_persona(id_cliente) ON DELETE SET NULL
+                           FOREIGN KEY (id_cliente) REFERENCES cliente(id_cliente) ON DELETE SET NULL
 );
 
 DROP TABLE IF EXISTS rol;
@@ -69,7 +69,7 @@ create table rol_cliente(
                             usua_delet VARCHAR(45),
                             date_delet TIMESTAMP,
                             FOREIGN KEY (id_rol) REFERENCES rol(id_rol),
-                            FOREIGN KEY (id_cliente) REFERENCES cliente_persona(id_cliente)
+                            FOREIGN KEY (id_cliente) REFERENCES cliente(id_cliente)
 );
 
 CREATE TABLE usuario (
@@ -85,7 +85,7 @@ CREATE TABLE usuario (
                          usua_delet VARCHAR(45),
                          date_delet TIMESTAMP,
                          CONSTRAINT uq_usuario_nombre UNIQUE (usuario),
-                         FOREIGN KEY (id_cliente) REFERENCES cliente_persona(id_cliente) ON DELETE SET NULL
+                         FOREIGN KEY (id_cliente) REFERENCES cliente(id_cliente) ON DELETE SET NULL
 );
 
 -- Crear tabla pedido
@@ -101,7 +101,7 @@ CREATE TABLE pedido (
                         usua_delet VARCHAR(45),
                         date_delet TIMESTAMP,
                         id_cliente INT NOT NULL,
-                        FOREIGN KEY (id_cliente) REFERENCES cliente_persona(id_cliente) ON DELETE SET NULL
+                        FOREIGN KEY (id_cliente) REFERENCES cliente(id_cliente) ON DELETE SET NULL
 );
 DROP TABLE IF EXISTS hist_pedido;
 CREATE TABLE hist_pedido (
@@ -116,7 +116,7 @@ CREATE TABLE hist_pedido (
                              date_modif TIMESTAMP,
                              usua_delet VARCHAR(45),
                              date_delet TIMESTAMP,
-                             FOREIGN KEY (id_cliente) REFERENCES cliente_persona(id_cliente) ON DELETE SET NULL,
+                             FOREIGN KEY (id_cliente) REFERENCES cliente(id_cliente) ON DELETE SET NULL,
                              FOREIGN KEY (id_pedido) REFERENCES pedido(id_pedido) ON DELETE SET NULL
 );
 
@@ -209,7 +209,7 @@ CREATE TABLE factura (
                          date_modif TIMESTAMP,
                          usua_delet VARCHAR(45),
                          date_delet TIMESTAMP,
-                         FOREIGN KEY (id_cliente) REFERENCES cliente_persona(id_cliente) ON DELETE SET NULL,
+                         FOREIGN KEY (id_cliente) REFERENCES cliente(id_cliente) ON DELETE SET NULL,
                          FOREIGN KEY (id_pedido) REFERENCES pedido(id_pedido) ON DELETE SET NULL
 );
 
