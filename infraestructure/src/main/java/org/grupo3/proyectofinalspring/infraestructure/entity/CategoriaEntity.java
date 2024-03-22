@@ -1,9 +1,11 @@
 package org.grupo3.proyectofinalspring.infraestructure.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import lombok.*;
 
 import java.sql.Timestamp;
+import java.util.List;
 
 @Entity
 @Getter
@@ -40,10 +42,8 @@ public class CategoriaEntity {
 
     @Column(name = "date_delet")
     private Timestamp dateDelet;
+    @OneToMany(mappedBy = "categoria")
+    @JsonIgnoreProperties("categoria")
+    List<ProductoEntity> productos;
 
-    /*
-    @OneToOne
-    @JoinColumn(name = "id_direccion")
-    private DireccionEntity direccionEntity;
-     */
 }

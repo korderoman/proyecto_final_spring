@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.sql.Timestamp;
+import java.util.List;
 
 @Entity
 @Getter
@@ -42,10 +43,7 @@ public class CaracteristicasEntity {
 
     @Column(name = "date_delet")
     private Timestamp dateDelet;
-
-    /*
-    @OneToOne
-    @JoinColumn(name = "id_direccion")
-    private DireccionEntity direccionEntity;
-     */
+    @ManyToOne
+    @JoinColumn(name = "id_producto")
+    private ProductoEntity producto;
 }

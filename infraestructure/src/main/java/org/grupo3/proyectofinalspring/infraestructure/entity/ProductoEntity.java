@@ -1,9 +1,11 @@
 package org.grupo3.proyectofinalspring.infraestructure.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import lombok.*;
 
 import java.sql.Timestamp;
+import java.util.List;
 
 @Entity
 @Getter
@@ -52,13 +54,14 @@ public class ProductoEntity {
 
     @Column(name = "date_delet")
     private Timestamp dateDelet;
-    /*
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name = "id_categoria")
-    private CategoriaEntity;
+    private CategoriaEntity categoria;
+    @OneToMany(mappedBy = "productos")
+    @JsonIgnoreProperties("productos")
+    private List<CaracteristicasEntity> caracteristicas;
+    @OneToOne
+    @JoinColumn(name="id_precio")
+    private PrecioEntity precio;
 
-     @OneToOne
-    @JoinColumn(name = "id_caracteristicas")
-    private CaracteristicasEntity;
-     */
 }

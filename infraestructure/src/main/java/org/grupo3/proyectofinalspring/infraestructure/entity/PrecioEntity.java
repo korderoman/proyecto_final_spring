@@ -46,10 +46,6 @@ public class PrecioEntity {
 
     @Column(name = "date_delet")
     private Timestamp dateDelet;
-
-    /*
-    @OneToOne
-    @JoinColumn(name = "id_direccion")
-    private DireccionEntity direccionEntity;
-     */
+    @OneToOne(mappedBy = "precio")
+    private ProductoEntity producto;
 }
