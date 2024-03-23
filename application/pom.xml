@@ -21,5 +21,10 @@
             <artifactId>infraestructure</artifactId>
             <version>0.0.1</version>
         </dependency>
+        <dependency>
+            <groupId>org.grupo3</groupId>
+            <artifactId>seguridad</artifactId>
+            <version>0.0.1</version>
+        </dependency>
     </dependencies>
 </project>

@@ -7,8 +7,8 @@
         <version>0.0.1-SNAPSHOT</version>
     </parent>
 
-    <groupId>com.panda</groupId>
     <artifactId>seguridad</artifactId>
+    <version>0.0.1</version>
     <name>Archetype - seguridad</name>
     <url>http://maven.apache.org</url>
 

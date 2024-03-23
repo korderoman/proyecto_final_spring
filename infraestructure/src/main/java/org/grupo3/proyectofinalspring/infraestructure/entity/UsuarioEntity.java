@@ -46,7 +46,7 @@ public class UsuarioEntity {
     @JoinColumn(name = "id_cliente")
     private ClienteEntity clienteEntity;
     @ManyToMany(fetch = FetchType.EAGER, targetEntity = RolEntity.class, cascade = CascadeType.PERSIST)
-    @JoinTable(name = "user_roles",
+    @JoinTable(name = "rol_cliente",
             joinColumns = @JoinColumn(name = "id_user", referencedColumnName = "id_user"),
             inverseJoinColumns = @JoinColumn(name = "id_rol", referencedColumnName = "id_rol"))
     private Set<RolEntity> roles; //set: para que el rol sea único

@@ -1,4 +1,4 @@
-package org.grupo3.proyectofinalspring.seguridad.response;
+package org.grupo3.proyectofinalspring.domain.aggregates.response;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

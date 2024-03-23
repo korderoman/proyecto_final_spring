@@ -1,4 +1,4 @@
-package org.grupo3.proyectofinalspring.seguridad.request;
+package org.grupo3.proyectofinalspring.domain.aggregates.request;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
