@@ -30,7 +30,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
                 signInRequest.getUsername(),signInRequest.getPassword()));
         try {
             AuthenticationResponse jwt = new AuthenticationResponse();
-            Optional<UsuarioEntity> user = usuarioRepository.findByUsername(signInRequest.getUsername());
+            Optional<UsuarioEntity> user = usuarioRepository.findByNomUsuario(signInRequest.getUsername());
             if (user.isEmpty()) {
                 jwt.setToken("User not registered");
                 return jwt;
