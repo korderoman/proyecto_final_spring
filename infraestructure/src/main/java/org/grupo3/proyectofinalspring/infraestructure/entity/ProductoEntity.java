@@ -57,8 +57,8 @@ public class ProductoEntity {
     @ManyToOne
     @JoinColumn(name = "id_categoria")
     private CategoriaEntity categoria;
-    @OneToMany(mappedBy = "productos")
-    @JsonIgnoreProperties("productos")
+    @OneToMany(mappedBy = "producto")
+    @JsonIgnoreProperties("producto")
     private List<CaracteristicasEntity> caracteristicas;
     @OneToOne
     @JoinColumn(name="id_precio")

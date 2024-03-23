@@ -23,7 +23,7 @@ public class Producto_PedidoEntity {
     private boolean oferta;
     @Column(name = "fec_ini_vlg")
     private Timestamp fec_ini_vlg;
-    @Column(name = "fec_ini_vlg")
+    @Column(name = "fec_fin_vlg")
     private Timestamp fec_fin_vlg;
 
     @Column(name = "estado", nullable = false)

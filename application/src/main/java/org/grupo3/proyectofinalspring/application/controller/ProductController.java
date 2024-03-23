@@ -13,6 +13,6 @@ import org.springframework.web.bind.annotation.RestController;
 public class ProductController {
     @GetMapping("/all")
     public ResponseEntity<ProductoDTO> getAllProducts(){
-
+        return  ResponseEntity.ok(null);
     }
 }

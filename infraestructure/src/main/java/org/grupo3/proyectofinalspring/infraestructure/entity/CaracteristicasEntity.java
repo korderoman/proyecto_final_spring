@@ -20,7 +20,7 @@ public class CaracteristicasEntity {
     private Long id_caracteristicas;
     @Column(name = "fec_ini_vlg")
     private Timestamp fec_ini_vlg;
-    @Column(name = "fec_ini_vlg")
+    @Column(name = "fec_fin_vlg")
     private Timestamp fec_fin_vlg;
 
     @Column(name = "estado", nullable = false)
