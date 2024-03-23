@@ -17,6 +17,8 @@ public class CaracteristicasEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_caracteristicas")
     private Long id_caracteristicas;
+    @Column(name="descripcion")
+    private String descripcion;
     @Column(name = "fec_ini_vlg")
     private Timestamp fec_ini_vlg;
     @Column(name = "fec_fin_vlg")
