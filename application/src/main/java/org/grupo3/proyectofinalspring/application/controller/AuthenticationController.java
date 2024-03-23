@@ -1,6 +1,8 @@
-package org.grupo3.proyectofinalspring.application.controllers;
+package org.grupo3.proyectofinalspring.application.controller;
 
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.grupo3.proyectofinalspring.domain.aggregates.dto.UsuarioDTO;
 import org.grupo3.proyectofinalspring.domain.aggregates.request.SignInRequest;
 import org.grupo3.proyectofinalspring.domain.aggregates.request.SignUpRequest;
 import org.grupo3.proyectofinalspring.domain.aggregates.response.AuthenticationResponse;
@@ -18,12 +20,13 @@ public class AuthenticationController {
     public ResponseEntity<String> saludoAdmin(){
         return ResponseEntity.ok("Hola Admin");
     }
-    @PostMapping("/authentication/signupadmin")
-    public ResponseEntity<UsuarioEntity> signUpAdmin(@RequestBody SignUpRequest signUpRequest){
+
+    @PostMapping("/authentication/signup")
+    public ResponseEntity<UsuarioDTO> signUpUser(@Valid @RequestBody SignUpRequest signUpRequest){
         return authenticationService.signUpCliente(signUpRequest);
     }
     @PostMapping("/authentication/signin")
-    public ResponseEntity<AuthenticationResponse> signin(@RequestBody SignInRequest signInRequest) throws Exception {
+    public ResponseEntity<AuthenticationResponse> signin(@Valid @RequestBody SignInRequest signInRequest) throws Exception {
         return ResponseEntity.ok(authenticationService.signIn(signInRequest));
     }
 }

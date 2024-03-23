@@ -16,12 +16,5 @@ public class ClienteDTO {
     private String nombres;
     private String apePaterno;
     private String apeMaterno;
-    private Integer estado;
-    private String usuaCrea;
-    private Timestamp dateCreate;
-    private String usuaModif;
-    private Timestamp dateModif;
-    private String usuaDelet;
-    private Timestamp dateDelet;
     private DireccionDTO direccionDTO;
 }

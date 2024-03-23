@@ -9,7 +9,9 @@ import java.sql.Timestamp;
 @Getter
 @Setter
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class RolDTO {
-    private Long idRol;
-    private String nombreRol;
+public class CategoriaDTO {
+    private Long idCategoria;
+    private String descripcion;
+    private Integer estado;
+
 }

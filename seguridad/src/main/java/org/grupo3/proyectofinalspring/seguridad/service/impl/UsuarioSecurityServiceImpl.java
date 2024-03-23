@@ -17,7 +17,7 @@ public class UsuarioSecurityServiceImpl implements UsuarioSecurityService {
         return new UserDetailsService() {
             @Override
             public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-                return (UserDetails) usuarioRepository.findByNomUsuario(username).orElseThrow( ()->
+                return usuarioRepository.findByNomUsuario(username).orElseThrow( ()->
                         new UsernameNotFoundException("Usuario no encontrado"));
             }
         };

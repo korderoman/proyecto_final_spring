@@ -19,12 +19,5 @@ public class DireccionDTO {
     private String codigPostal;
     private String telefonoCont;
     private String email;
-    private Integer estado;
-    private String usuaCrea;
-    private Timestamp dateCreate;
-    private String usuaModif;
-    private Timestamp dateModif;
-    private String usuaDelet;
-    private Timestamp dateDelet;
 
 }

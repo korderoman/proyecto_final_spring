@@ -9,8 +9,8 @@ CREATE TABLE direccion (
                            numero VARCHAR(20),
                            piso VARCHAR(10),
                            codigo_postal VARCHAR(20),
-                           telefono_cont VARCHAR(20),
-                           email VARCHAR(255),
+                           telefono_cont VARCHAR(20) NOT NULL,
+                           email VARCHAR(255) NOT NULL,
                            estado INT NOT NULL,
                            usua_crea VARCHAR(45),
                            date_create TIMESTAMP,
@@ -36,6 +36,10 @@ CREATE TABLE cliente (
                          date_modif TIMESTAMP,
                          usua_delet VARCHAR(45),
                          date_delet TIMESTAMP,
+                         enabled BOOLEAN NOT NULL,
+                         accountnonexpire BOOLEAN NOT NULL,
+                         accountnonlocked BOOLEAN NOT NULL,
+                         credentialsnonexpired BOOLEAN NOT NULL,
                          CONSTRAINT uq_cliente_dni UNIQUE (dni),
                          FOREIGN KEY (id_direccion) REFERENCES direccion(id_direccion) ON DELETE SET NULL
 );

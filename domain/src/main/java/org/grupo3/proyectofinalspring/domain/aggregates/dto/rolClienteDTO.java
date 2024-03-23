@@ -13,11 +13,4 @@ public class rolClienteDTO {
     private Long idRolCliente;
     private Long idRol;
     private Long idCliente;
-    private Integer estado;
-    private String usuaCrea;
-    private Timestamp dateCreate;
-    private String usuaModif;
-    private Timestamp dateModif;
-    private String usuaDelet;
-    private Timestamp dateDelet;
 }
