@@ -54,6 +54,8 @@ public class CategoriaAdapter implements CategoriaServiceOut {
             return  addCategoryOut(requestCategoria);
         }
         CategoriaEntity categoriaFinded= categoriaEntity.get();
+        categoriaFinded.setDescripcion(requestCategoria.getDescripcion());
+        categoriaFinded.setEstado(requestCategoria.getEstado());
         categoriaFinded.setUsuaModif("Henry Medina");
         categoriaFinded.setDateModif(getTimestamp());
         CategoriaEntity categoriaUpdated= categoriaRepository.save(categoriaFinded);
