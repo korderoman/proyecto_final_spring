@@ -18,6 +18,6 @@ public class RequestProducto {
     private Timestamp fecFinVlg;
     private Integer estado;
     private Integer precio;
-    private String categoria;
+    private Long categoria;
     private List<String> caracteristicas;
 }
