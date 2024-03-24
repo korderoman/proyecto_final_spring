@@ -36,10 +36,7 @@ CREATE TABLE cliente (
                          date_modif TIMESTAMP,
                          usua_delet VARCHAR(45),
                          date_delet TIMESTAMP,
-                         enabled BOOLEAN NOT NULL,
-                         accountnonexpire BOOLEAN NOT NULL,
-                         accountnonlocked BOOLEAN NOT NULL,
-                         credentialsnonexpired BOOLEAN NOT NULL,
+
                          CONSTRAINT uq_cliente_dni UNIQUE (dni),
                          FOREIGN KEY (id_direccion) REFERENCES direccion(id_direccion) ON DELETE SET NULL
 );
@@ -88,6 +85,10 @@ CREATE TABLE usuario (
                          date_modif TIMESTAMP,
                          usua_delet VARCHAR(45),
                          date_delet TIMESTAMP,
+                         enabled BOOLEAN NOT NULL,
+                         accountnonexpire BOOLEAN NOT NULL,
+                         accountnonlocked BOOLEAN NOT NULL,
+                         credentialsnonexpired BOOLEAN NOT NULL,
                          CONSTRAINT uq_usuario_nombre UNIQUE (usuario),
                          FOREIGN KEY (id_cliente) REFERENCES cliente(id_cliente) ON DELETE SET NULL
 );
