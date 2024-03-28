@@ -17,7 +17,7 @@ public class RequestProducto {
     private Timestamp fecIniVlg;
     private Timestamp fecFinVlg;
     private Integer estado;
-    private Integer precio;
+    private Double precio;
     private Long categoria;
-    private List<String> caracteristicas;
+    private List<Long> caracteristicas;
 }

@@ -7,7 +7,7 @@ import java.util.List;
 import java.util.Optional;
 
 public interface ProductoServiceIn {
-    ProductoDTO addProductIn(RequestProducto requestProducto);
+    ProductoDTO addProductIn(RequestProducto requestProducto) throws Exception;
     List<ProductoDTO> getAllProductsIn();
     Optional<ProductoDTO> getProductByIdIn(Long id);
     ProductoDTO updateProductByIdIn(Long id, RequestProducto requestProducto);

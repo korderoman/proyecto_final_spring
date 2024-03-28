@@ -7,9 +7,9 @@ import java.util.List;
 import java.util.Optional;
 
 public interface ProductoServiceOut {
-    ProductoDTO addProductOut(RequestProducto requestProducto);
+    ProductoDTO addProductOut(RequestProducto requestProducto) throws Exception;
     List<ProductoDTO> getAllProductsOut();
     Optional<ProductoDTO> getProductByIdOut(Long id);
-    ProductoDTO updateProductByIdOut(Long id, RequestProducto requestProducto);
-    ProductoDTO deleteProductByIdOut(Long id);
+    ProductoDTO updateProductByIdOut(Long id, RequestProducto requestProducto) throws Exception;
+    ProductoDTO deleteProductByIdOut(Long id) throws Exception;
 }

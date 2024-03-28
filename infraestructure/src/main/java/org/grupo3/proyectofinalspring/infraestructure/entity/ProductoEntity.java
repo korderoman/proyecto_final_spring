@@ -60,8 +60,6 @@ public class ProductoEntity {
     @OneToMany(mappedBy = "producto")
     @JsonIgnoreProperties("producto")
     private List<CaracteristicasEntity> caracteristicas;
-    @OneToOne
-    @JoinColumn(name="id_precio")
-    private PrecioEntity precio;
+    private Double precio;
 
 }
