@@ -9,7 +9,7 @@ import java.util.Optional;
 public interface CategoriaServiceIn {
     CategoriaDTO addCategoryIn(RequestCategoria requestCategoria);
     List<CategoriaDTO> getAllCategoriesIn();
-    Optional<CategoriaDTO> getCategoryByIdIn(Long id);
+    CategoriaDTO getCategoryByIdIn(Long id) throws Exception;
     CategoriaDTO updateCategoryByIdIn(Long id, RequestCategoria requestCategoria);
-    CategoriaDTO deleteCategoryByIdIn(Long id);
+    CategoriaDTO deleteCategoryByIdIn(Long id) throws Exception;
 }

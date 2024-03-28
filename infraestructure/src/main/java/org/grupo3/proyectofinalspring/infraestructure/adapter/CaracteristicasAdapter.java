@@ -41,8 +41,12 @@ public class CaracteristicasAdapter implements CaracteristicasServiceOut {
     }
 
     @Override
-    public Optional<CaracteristicasDTO> getCaracteristicsByIdOut(Long id) {
-        return Optional.empty();
+    public CaracteristicasDTO getCaracteristicsByIdOut(Long id) throws Exception {
+        Optional<CaracteristicasEntity> caracteristicasEntity = caracteristicasRepository.findById(id);
+        if(caracteristicasEntity.isEmpty()){
+            throw new Exception("No existe la característica solicitada");
+        }
+        return  setCaracteristicaEntityToDto(caracteristicasEntity.get());
     }
 
     @Override
@@ -62,7 +66,7 @@ public class CaracteristicasAdapter implements CaracteristicasServiceOut {
     }
 
     @Override
-    public CaracteristicasDTO deleteCaracteristicsByIdOut(Long id) {
+    public CaracteristicasDTO deleteCaracteristicsByIdOut(Long id) throws Exception{
         boolean exist=caracteristicasRepository.existsById(id);
         if(exist){
             Optional<CaracteristicasEntity>caracteristicasEntity = caracteristicasRepository.findById(id);
@@ -73,9 +77,9 @@ public class CaracteristicasAdapter implements CaracteristicasServiceOut {
                 CaracteristicasEntity caracteristicasDeleted=caracteristicasRepository.save(caracteristicasEntity.get());
                 return  setCaracteristicaEntityToDto(caracteristicasDeleted);
             }
-            return  null;
+            throw  new Exception("No existe la característica solicitada");
         }
-        return null;
+        throw  new Exception("No existe la característica solicitada");
     }
 
     private Timestamp getTimestamp(){

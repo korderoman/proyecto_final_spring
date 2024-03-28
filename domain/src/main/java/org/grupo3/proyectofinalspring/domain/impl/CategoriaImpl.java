@@ -25,7 +25,7 @@ public class CategoriaImpl implements CategoriaServiceIn {
     }
 
     @Override
-    public Optional<CategoriaDTO> getCategoryByIdIn(Long id) {
+    public CategoriaDTO getCategoryByIdIn(Long id) throws  Exception {
         return categoriaServiceOut.getCategoryByIdOut(id);
     }
 
@@ -35,7 +35,7 @@ public class CategoriaImpl implements CategoriaServiceIn {
     }
 
     @Override
-    public CategoriaDTO deleteCategoryByIdIn(Long id) {
+    public CategoriaDTO deleteCategoryByIdIn(Long id) throws Exception {
         return categoriaServiceOut.deleteCategoryByIdOut(id);
     }
 }

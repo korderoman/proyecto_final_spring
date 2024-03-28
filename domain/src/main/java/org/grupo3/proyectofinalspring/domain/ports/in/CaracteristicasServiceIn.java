@@ -9,7 +9,7 @@ import java.util.Optional;
 public interface CaracteristicasServiceIn {
     CaracteristicasDTO addCaracteristicsIn(RequestCaracteristicas requestCaracteristicas);
     List<CaracteristicasDTO> getAllCaracteristicsIn();
-    Optional<CaracteristicasDTO> getCaracteristicsByIdIn(Long id);
-    CaracteristicasDTO updateCaracteristicsByIdIn(Long id, RequestCaracteristicas requestCaracteristicas);
-    CaracteristicasDTO deleteCaracteristicsByIdIn(Long id);
+    CaracteristicasDTO getCaracteristicsByIdIn(Long id) throws Exception;
+    CaracteristicasDTO updateCaracteristicsByIdIn(Long id, RequestCaracteristicas requestCaracteristicas) ;
+    CaracteristicasDTO deleteCaracteristicsByIdIn(Long id) throws Exception;
 }

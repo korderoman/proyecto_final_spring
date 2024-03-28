@@ -26,7 +26,7 @@ public class CaracteristicasImpl implements CaracteristicasServiceIn {
     }
 
     @Override
-    public Optional<CaracteristicasDTO> getCaracteristicsByIdIn(Long id) {
+    public CaracteristicasDTO getCaracteristicsByIdIn(Long id) throws Exception {
         return caracteristicasServiceOut.getCaracteristicsByIdOut(id);
     }
 
@@ -36,7 +36,7 @@ public class CaracteristicasImpl implements CaracteristicasServiceIn {
     }
 
     @Override
-    public CaracteristicasDTO deleteCaracteristicsByIdIn(Long id) {
+    public CaracteristicasDTO deleteCaracteristicsByIdIn(Long id) throws Exception {
         return caracteristicasServiceOut.deleteCaracteristicsByIdOut(id);
     }
 }

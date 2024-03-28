@@ -42,13 +42,16 @@ public class CategoriaAdapter implements CategoriaServiceOut {
     }
 
     @Override
-    public Optional<CategoriaDTO> getCategoryByIdOut(Long id) {
+    public CategoriaDTO getCategoryByIdOut(Long id) throws Exception {
         Optional<CategoriaEntity> categoriaEntity = categoriaRepository.findById(id);
-        return categoriaEntity.map(this::categoriaEntityToDto);
+        if(categoriaEntity.isEmpty()){
+            throw  new Exception("No se encuentra la categoría");
+        }
+        return  categoriaEntityToDto(categoriaEntity.get());
     }
 
     @Override
-    public CategoriaDTO updateCategoryByIdOut(Long id, RequestCategoria requestCategoria) {
+    public CategoriaDTO updateCategoryByIdOut(Long id, RequestCategoria requestCategoria)  {
         Optional<CategoriaEntity> categoriaEntity = categoriaRepository.findById(id);
         if(categoriaEntity.isEmpty()){
             return  addCategoryOut(requestCategoria);
@@ -64,7 +67,7 @@ public class CategoriaAdapter implements CategoriaServiceOut {
     }
 
     @Override
-    public CategoriaDTO deleteCategoryByIdOut(Long id) {
+    public CategoriaDTO deleteCategoryByIdOut(Long id) throws Exception  {
         boolean exist = categoriaRepository.existsById(id);
         if(exist){
             Optional<CategoriaEntity> categoriaEntity= categoriaRepository.findById(id);
@@ -76,9 +79,9 @@ public class CategoriaAdapter implements CategoriaServiceOut {
                 CategoriaEntity categoriaSaved=categoriaRepository.save(categoriaFinded);
                 return  categoriaEntityToDto(categoriaSaved);
             }
-            return  null;
+            throw  new Exception("No se encuentra la categoría a eliminar");
         }
-        return  null;
+        throw  new Exception("No se encuentra la categoría a eliminar");
     }
 
     private Timestamp getTimestamp(){
