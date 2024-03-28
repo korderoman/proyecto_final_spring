@@ -57,21 +57,7 @@ CREATE TABLE rol (
                      CONSTRAINT uq_rol_nombre UNIQUE (nombre_rol)
 );
 
-drop table if exists rol_cliente;
-create table rol_cliente(
-                            id_rol_cliente SERIAL primary KEY,
-                            id_rol int,
-                            id_user int,
-                            estado INT NOT NULL,
-                            usua_crea VARCHAR(45),
-                            date_create TIMESTAMP,
-                            usua_modif VARCHAR(45),
-                            date_modif TIMESTAMP,
-                            usua_delet VARCHAR(45),
-                            date_delet TIMESTAMP,
-                            FOREIGN KEY (id_rol) REFERENCES rol(id_rol),
-                            FOREIGN KEY (id_user) REFERENCES cliente(id_cliente)
-);
+
 
 CREATE TABLE usuario (
                          id_user SERIAL primary KEY,
@@ -92,7 +78,21 @@ CREATE TABLE usuario (
                          CONSTRAINT uq_usuario_nombre UNIQUE (usuario),
                          FOREIGN KEY (id_cliente) REFERENCES cliente(id_cliente) ON DELETE SET NULL
 );
-
+drop table if exists rol_cliente;
+create table rol_cliente(
+                            id_rol_cliente SERIAL primary KEY,
+                            id_rol int,
+                            id_user int,
+                            estado INT NOT NULL,
+                            usua_crea VARCHAR(45),
+                            date_create TIMESTAMP,
+                            usua_modif VARCHAR(45),
+                            date_modif TIMESTAMP,
+                            usua_delet VARCHAR(45),
+                            date_delet TIMESTAMP,
+                            FOREIGN KEY (id_rol) REFERENCES rol(id_rol),
+                            FOREIGN KEY (id_user) REFERENCES usuario(id_user)
+);
 -- Crear tabla pedido
 DROP TABLE IF EXISTS pedido;
 CREATE TABLE pedido (

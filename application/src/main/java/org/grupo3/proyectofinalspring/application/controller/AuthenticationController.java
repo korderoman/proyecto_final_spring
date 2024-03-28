@@ -12,18 +12,18 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/api/v1/admin")
+@RequestMapping("/api/v1")
 @RequiredArgsConstructor
 public class AuthenticationController {
     private final AuthenticationService authenticationService;
-    @GetMapping
-    public ResponseEntity<String> saludoAdmin(){
-        return ResponseEntity.ok("Hola Admin");
-    }
 
     @PostMapping("/authentication/signup")
     public ResponseEntity<UsuarioDTO> signUpUser(@Valid @RequestBody SignUpRequest signUpRequest){
         return authenticationService.signUpCliente(signUpRequest);
+    }
+    @PostMapping("/admin/authentication/signup")
+    public ResponseEntity<UsuarioDTO> signUpAdmin(@Valid @RequestBody SignUpRequest signUpRequest){
+        return authenticationService.signUpAdmin(signUpRequest);
     }
     @PostMapping("/authentication/signin")
     public ResponseEntity<AuthenticationResponse> signin(@Valid @RequestBody SignInRequest signInRequest) throws Exception {
