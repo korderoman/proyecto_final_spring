@@ -5,6 +5,7 @@ import org.grupo3.proyectofinalspring.domain.aggregates.dto.UsuarioDTO;
 import org.grupo3.proyectofinalspring.domain.aggregates.request.SignInRequest;
 import org.grupo3.proyectofinalspring.domain.aggregates.request.SignUpRequest;
 import org.grupo3.proyectofinalspring.domain.aggregates.response.AuthenticationResponse;
+import org.grupo3.proyectofinalspring.domain.aggregates.response.ResponseReniec;
 import org.grupo3.proyectofinalspring.infraestructure.entity.ClienteEntity;
 import org.grupo3.proyectofinalspring.infraestructure.entity.DireccionEntity;
 import org.grupo3.proyectofinalspring.infraestructure.entity.RolEntity;
@@ -12,14 +13,15 @@ import org.grupo3.proyectofinalspring.infraestructure.entity.UsuarioEntity;
 import org.grupo3.proyectofinalspring.infraestructure.excepcions.ProcessException;
 import org.grupo3.proyectofinalspring.infraestructure.mapper.UsuarioMapper;
 import org.grupo3.proyectofinalspring.infraestructure.repository.*;
+import org.grupo3.proyectofinalspring.infraestructure.rest.cliente.ClienteReniec;
 import org.grupo3.proyectofinalspring.seguridad.service.AuthenticationService;
 import org.grupo3.proyectofinalspring.seguridad.service.JWTService;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -40,11 +42,16 @@ public class AuthenticationServiceAdapter implements AuthenticationService {
     private final DireccionRepository direccionRepository;
     private final RolRepository rolRepository;
     private final UsuarioMapper usuarioMapper;
+    private final ClienteReniec clienteReniec;
+    @Value("${token.api}")
+    private String tokenApi;
     @Transactional //para que maneje los rollbacks ya que estamos insertando datos de muchas entidades.
     @Override
     public ResponseEntity<UsuarioDTO> signUpCliente(SignUpRequest signUpRequest) {
-        Optional<ClienteEntity> clienteGuardado = registerCLiente(signUpRequest);
-        if(clienteGuardado.isEmpty()) throw new ProcessException("El cliente no se pudo guardar en la base de datos.");
+        //direccion
+        Optional<DireccionEntity> direccionGuardada = registerDireccion(signUpRequest);
+        //cliente
+        Optional<ClienteEntity> clienteGuardado = registerCLienteWithReniec(signUpRequest, direccionGuardada);
         //roles
         Set<RolEntity> rolEntitySet = new HashSet<>();
         Optional <RolEntity> rol  = rolRepository.findByNombreRol("USER");
@@ -56,7 +63,10 @@ public class AuthenticationServiceAdapter implements AuthenticationService {
     @Transactional
     @Override
     public ResponseEntity<UsuarioDTO> signUpAdmin(SignUpRequest signUpRequest) {
-        Optional<ClienteEntity> clienteGuardado = registerCLiente(signUpRequest);
+        //direccion
+        Optional<DireccionEntity> direccionGuardada = registerDireccion(signUpRequest);
+        //cliente
+        Optional<ClienteEntity> clienteGuardado = registerCLienteWithReniec(signUpRequest, direccionGuardada);
         //roles
         Set<RolEntity> rolEntitySet = new HashSet<>();
         Optional <RolEntity> rol1  = rolRepository.findByNombreRol("USER");
@@ -92,7 +102,23 @@ public class AuthenticationServiceAdapter implements AuthenticationService {
             throw new Exception(e.toString());
         }
     }
-    private Optional<ClienteEntity> registerCLiente(SignUpRequest signUpRequest){
+    private Optional<ClienteEntity> registerCLienteWithReniec(SignUpRequest signUpRequest, Optional<DireccionEntity> direccionGuardada){
+        //reniec
+        ResponseReniec responseReniec= getExecutionReniec(signUpRequest.getDni());
+        //cliente
+        ClienteEntity clienteEntity = clienteRepository.save(ClienteEntity.builder()
+                .nombres(responseReniec.getNombres())
+                .dni(signUpRequest.getDni())
+                .apePaterno(responseReniec.getApellidoPaterno())
+                .apeMaterno(responseReniec.getApellidoMaterno())
+                .direccionEntity(direccionGuardada.get())
+                .estado(1)
+                .usuaCrea(signUpRequest.getNomUsuario()).build());
+        Optional<ClienteEntity> clienteGuardado= clienteRepository.findById(clienteEntity.getIdCliente());
+        if(clienteGuardado.isEmpty()) throw new ProcessException("El cliente no se pudo guardar en la base de datos");
+        return clienteGuardado;
+    }
+    private Optional<DireccionEntity> registerDireccion(SignUpRequest signUpRequest){
         //validar datos
         if(clienteRepository.existsByDni(signUpRequest.getDni())) throw new ProcessException("El DNI ya existe en la Base de datos");
         if(direccionRepository.existsByEmail(signUpRequest.getEmail())) throw new ProcessException("El email ya existe en la Base de datos");
@@ -112,18 +138,7 @@ public class AuthenticationServiceAdapter implements AuthenticationService {
                 .build());
         Optional <DireccionEntity> direccionGuardada= direccionRepository.findById(direccionEntity.getIdDireccion());
         if(direccionGuardada.isEmpty()) throw new ProcessException("La dirección no se pudo guardar en la base de datos.");
-        //cliente
-        ClienteEntity clienteEntity = clienteRepository.save(ClienteEntity.builder()
-                .nombres(signUpRequest.getNombres())
-                .dni(signUpRequest.getDni())
-                .apePaterno(signUpRequest.getApePaterno())
-                .apeMaterno(signUpRequest.getApeMaterno())
-                .direccionEntity(direccionGuardada.get())
-                .estado(1)
-                .usuaCrea(signUpRequest.getNomUsuario()).build());
-        Optional<ClienteEntity> clienteGuardado= clienteRepository.findById(clienteEntity.getIdCliente());
-        if(clienteGuardado.isEmpty()) throw new ProcessException("El cliente no se pudo guardar en la base de datos");
-        return clienteGuardado;
+        return direccionGuardada;
     }
     private UsuarioDTO registerUsuario(SignUpRequest signUpRequest, Optional<ClienteEntity> clienteGuardado, Set<RolEntity> rolEntitySet){
         if(usuarioRepository.existsByNomUsuario(signUpRequest.getNomUsuario())) throw new ProcessException("El nombre de usuario ya existe en la base de datos");
@@ -140,6 +155,10 @@ public class AuthenticationServiceAdapter implements AuthenticationService {
                 .accountnonlocked(true)
                 .credentialsnonexpired(true)
                 .build()));
+    }
+    public ResponseReniec getExecutionReniec(String numero){
+        String authorization = "Bearer "+tokenApi;
+            return clienteReniec.getInfoReniec(numero,authorization);
     }
     private boolean verifyPassword(String enteredPassword, String storedPassword) {
         BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();

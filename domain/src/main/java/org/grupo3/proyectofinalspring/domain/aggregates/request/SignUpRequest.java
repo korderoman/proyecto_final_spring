@@ -1,6 +1,5 @@
 package org.grupo3.proyectofinalspring.domain.aggregates.request;
 
-import jakarta.validation.Valid;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
@@ -16,12 +15,6 @@ public class SignUpRequest {
     @NotBlank(message = "Este campo no puede estar vacio")
     @Size(min = 8, max = 8, message = "El DNI debe tener exactamente 8 caracteres")
     private String dni;
-    @NotBlank(message = "Este campo no puede estar vacio")
-    private String nombres;
-    @NotBlank(message = "Este campo no puede estar vacio")
-    private String apePaterno;
-    @NotBlank(message = "Este campo no puede estar vacio")
-    private String apeMaterno;
     @NotBlank(message = "Este campo no puede estar vacio")
     @Size(min = 3,message = "La dirección tiene que tener más de 3 caracteres.")
     private String direccion;
