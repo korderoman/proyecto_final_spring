@@ -23,21 +23,21 @@ public class ProductoImpl implements ProductoServiceIn {
 
     @Override
     public List<ProductoDTO> getAllProductsIn() {
-        return null;
+        return productoServiceOut.getAllProductsOut();
     }
 
     @Override
-    public Optional<ProductoDTO> getProductByIdIn(Long id) {
-        return Optional.empty();
+    public ProductoDTO getProductByIdIn(Long id) throws Exception {
+        return  productoServiceOut.getProductByIdOut(id);
     }
 
     @Override
-    public ProductoDTO updateProductByIdIn(Long id, RequestProducto requestProducto) {
-        return null;
+    public ProductoDTO updateProductByIdIn(Long id, RequestProducto requestProducto) throws Exception {
+        return productoServiceOut.updateProductByIdOut(id,requestProducto);
     }
 
     @Override
-    public ProductoDTO deleteProductByIdIn(Long id) {
-        return null;
+    public ProductoDTO deleteProductByIdIn(Long id) throws Exception {
+        return  productoServiceOut.deleteProductByIdOut(id);
     }
 }

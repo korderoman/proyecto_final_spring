@@ -69,7 +69,7 @@ public class ProductoAdapter implements ProductoServiceOut {
         if(categoriaEntity.isPresent()){
             return categoriaEntity.get();
         }
-        throw  new Exception("501");
+        throw  new Exception("No se encuentra la categoria asignada al producto");
     }
 
     private List<String> getCaracteristicasToDto(List<CaracteristicasEntity> caracteristicasId){
@@ -107,16 +107,19 @@ public class ProductoAdapter implements ProductoServiceOut {
     }
 
     @Override
-    public Optional<ProductoDTO> getProductByIdOut(Long id) {
+    public ProductoDTO getProductByIdOut(Long id) throws Exception {
         Optional<ProductoEntity> productoEntity = productoRepository.findById(id);
-        return  productoEntity.map(this::setProductoEntityToProductoDto);
+        if(productoEntity.isEmpty()){
+            throw new Exception("No se encuentra el producto");
+        }
+        return  setProductoEntityToProductoDto(productoEntity.get());
     }
 
     @Override
     public ProductoDTO updateProductByIdOut(Long id, RequestProducto requestProducto) throws Exception{
         Optional<ProductoEntity> productoEntity = productoRepository.findById(id);
         if(productoEntity.isEmpty()){
-            throw  new Exception("502");
+            throw  new Exception("No se encuentra el producto a actualizar");
         }
         productoEntity.get().setDesc_larga_prod(requestProducto.getDescLargaProd());
         productoEntity.get().setDesc_corta_prod(requestProducto.getDescCortaProd());
@@ -134,7 +137,7 @@ public class ProductoAdapter implements ProductoServiceOut {
     public ProductoDTO deleteProductByIdOut(Long id) throws Exception {
         Optional<ProductoEntity> productoEntity = productoRepository.findById(id);
         if(productoEntity.isEmpty()){
-            throw new Exception("503");
+            throw new Exception("No se encuentra el producto a eliminar");
         }
         productoEntity.get().setEstado(0);
         productoEntity.get().setUsuaDelet("Henry Medina");

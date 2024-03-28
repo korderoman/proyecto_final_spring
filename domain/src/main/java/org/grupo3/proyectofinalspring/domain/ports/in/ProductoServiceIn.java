@@ -9,7 +9,7 @@ import java.util.Optional;
 public interface ProductoServiceIn {
     ProductoDTO addProductIn(RequestProducto requestProducto) throws Exception;
     List<ProductoDTO> getAllProductsIn();
-    Optional<ProductoDTO> getProductByIdIn(Long id);
-    ProductoDTO updateProductByIdIn(Long id, RequestProducto requestProducto);
-    ProductoDTO deleteProductByIdIn(Long id);
+    ProductoDTO getProductByIdIn(Long id) throws Exception;
+    ProductoDTO updateProductByIdIn(Long id, RequestProducto requestProducto) throws Exception;
+    ProductoDTO deleteProductByIdIn(Long id) throws Exception;
 }

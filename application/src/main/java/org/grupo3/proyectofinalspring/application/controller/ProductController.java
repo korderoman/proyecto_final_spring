@@ -8,13 +8,15 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("empresa/productos")
 @RequiredArgsConstructor
 public class ProductController {
     private final ProductoServiceIn productoServiceIn;
     @PostMapping("/create")
-    public ResponseEntity<?> getAllProducts(@RequestBody RequestProducto requestProducto){
+    public ResponseEntity<?> createProduct(@RequestBody RequestProducto requestProducto){
         try {
             return  ResponseEntity.status(HttpStatus.CREATED).body(productoServiceIn.addProductIn(requestProducto));
         }catch (Exception e){
@@ -23,8 +25,45 @@ public class ProductController {
     }
 
 
+    @GetMapping("/all")
+    public  ResponseEntity<List<ProductoDTO>> obtenerTodosLosProductos(){
+        return  ResponseEntity.status(HttpStatus.OK).body(productoServiceIn.getAllProductsIn());
+    }
+
+    @GetMapping("/find/{id}")
+    public  ResponseEntity<?> obtenerPorId(@PathVariable Long id){
+        try {
+            return  ResponseEntity.status(HttpStatus.OK).body(productoServiceIn.getProductByIdIn(id));
+        }catch (Exception e){
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(solveCheckError(e));
+
+        }
+    }
+
+    @PutMapping("/update/{id}")
+    public  ResponseEntity<?> actualizarPorId(@PathVariable Long id, @RequestBody RequestProducto requestProducto){
+        try{
+            return  ResponseEntity.status(HttpStatus.OK).body(productoServiceIn.updateProductByIdIn(id,requestProducto));
+        }catch (Exception e){
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(solveCheckError(e));
+
+        }
+
+    }
+
+    @DeleteMapping("/delete/{id}")
+    public  ResponseEntity<?> eliminarPorId(@PathVariable Long id){
+        try{
+            return  ResponseEntity.status(HttpStatus.OK).body(productoServiceIn.deleteProductByIdIn(id));
+        }catch (Exception e){
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(solveCheckError(e));
+
+        }
+
+    }
+
+
     private String solveCheckError(Exception e){
-        System.out.println(e.getMessage());
-        return "Algo no salio bien";
+       return  e.getMessage();
     }
 }
