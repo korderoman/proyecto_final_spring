@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.sql.Timestamp;
+import java.util.List;
 
 @Entity
 @Getter
@@ -40,9 +41,9 @@ public class PedidoEntity {
 
     @Column(name = "date_delet")
     private Timestamp dateDelet;
-    /*
-    @OneToOne
-    @JoinColumn(name = "id_cliente")
-    private DireccionEntity clienteEntity;
-     */
+/*
+    @OneToMany(mappedBy = "pedidoEntity")
+    private List<FacturaEntity> facturas;
+
+ */
 }

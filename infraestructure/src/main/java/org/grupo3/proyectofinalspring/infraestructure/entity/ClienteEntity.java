@@ -49,4 +49,8 @@ public class ClienteEntity {
     @OneToOne
     @JoinColumn(name = "id_direccion")
     private DireccionEntity direccionEntity;
+
+    /*
+    @OneToOne(mappedBy = "clienteEntity")
+    private FacturaEntity facturaEntity;*/
 }

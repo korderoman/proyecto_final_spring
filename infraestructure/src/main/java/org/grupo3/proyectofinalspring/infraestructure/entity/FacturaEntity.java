@@ -49,7 +49,13 @@ public class FacturaEntity {
 
     /*
     @OneToOne
-    @JoinColumn(name = "id_direccion")
-    private DireccionEntity direccionEntity;
+    @JoinColumn(name = "id_cliente")
+    private ClienteEntity clienteEntity;
+
+    @ManyToOne
+    @JoinColumn(name = "id_pedido")
+    private PedidoEntity pedidoEntity;
+
      */
+
 }
