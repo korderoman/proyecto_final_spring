@@ -13,5 +13,5 @@ public class HistorialPedidoDTO {
     private Long idHistPedido;
     private Timestamp fechaInicioPedido;
     private ClienteDTO clienteDTO;
-    private pedidoDTO pedidoDTO;
+    private PedidoDTO pedidoDTO;
 }

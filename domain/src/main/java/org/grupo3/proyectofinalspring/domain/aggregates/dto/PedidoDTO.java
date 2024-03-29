@@ -9,7 +9,7 @@ import java.sql.Timestamp;
 @Getter
 @Setter
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class pedidoDTO {
+public class PedidoDTO {
     private Long idPedido;
     private Timestamp fechaInicioPedido;
     private Integer estado;
