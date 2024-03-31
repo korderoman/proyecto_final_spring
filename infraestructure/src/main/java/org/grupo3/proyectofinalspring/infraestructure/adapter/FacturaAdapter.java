@@ -22,15 +22,13 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class FacturaAdapter implements FacturaServiceOut {
     private final FacturaRepository facturaRepository;
-    /*private final ClienteRepository clienteRepository;
-    private final PedidoRepository pedidoRepository;*/
+    private final ClienteRepository clienteRepository;
+    private final PedidoRepository pedidoRepository;
     @Override
     public FacturaDTO addFacturaOut(RequestFactura requestFactura) {
         FacturaEntity facturaEntity = new FacturaEntity();
-        /*ClienteEntity clienteEntity = getCliente(requestFactura.getIdCliente());
         PedidoEntity pedidoEntity = getPedido(requestFactura.getIdPedido());
-        clienteEntity.setIdCliente(requestFactura.getIdCliente());
-        pedidoEntity.setId_pedido(requestFactura.getIdPedido());*/
+        pedidoEntity.setId_pedido(requestFactura.getIdPedido());
         facturaEntity.setNum_factura(requestFactura.getNumFactura());
         facturaEntity.setCantidad(requestFactura.getCantidad());
         facturaEntity.setIgv(requestFactura.getIgv());
@@ -100,13 +98,14 @@ public class FacturaAdapter implements FacturaServiceOut {
 
     private FacturaDTO FacturaEntityToDto(FacturaEntity facturaEntity){
         FacturaDTO facturaDTO = new FacturaDTO();
+        //facturaDTO.setIdPedido(facturaEntity);
         facturaDTO.setIdFactura(facturaEntity.getId_factura());
         facturaDTO.setNumFactura(facturaEntity.getNum_factura());
         facturaDTO.setCantidad(facturaEntity.getCantidad());
         facturaDTO.setIgv(facturaEntity.getIgv());
         return facturaDTO;
     }
-/*
+
     private ClienteEntity getCliente(Long id_cliente){
         Optional<ClienteEntity> clienteEntity = clienteRepository.findById(id_cliente);
         if(clienteEntity.isPresent()){
@@ -121,6 +120,5 @@ public class FacturaAdapter implements FacturaServiceOut {
         }
         return null;
     }
-*/
 }
 

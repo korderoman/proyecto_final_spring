@@ -8,8 +8,7 @@ import java.sql.Timestamp;
 @Getter
 @Setter
 public class RequestFactura {
-    /*private Long idCliente;
-    private Long idPedido;*/
+    private Long idPedido;
     private String numFactura;
     private int cantidad;
     private double igv;

@@ -17,12 +17,16 @@ public class FacturaEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_factura")
     private Long id_factura;
+
     @Column(name = "num_factura", length = 50)
     private String num_factura;
+
     @Column(name = "cantidad")
     private int cantidad;
+
     @Column(name = "igv")
     private double igv;
+
     @Column(name = "fecha_ingreso")
     private Timestamp fecha_ingreso;
 
@@ -47,15 +51,8 @@ public class FacturaEntity {
     @Column(name = "date_delet")
     private Timestamp dateDelet;
 
-    /*
     @OneToOne
-    @JoinColumn(name = "id_cliente")
-    private ClienteEntity clienteEntity;
-
-    @ManyToOne
     @JoinColumn(name = "id_pedido")
     private PedidoEntity pedidoEntity;
-
-     */
 
 }

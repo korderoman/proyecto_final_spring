@@ -2,6 +2,7 @@ package org.grupo3.proyectofinalspring.infraestructure.entity;
 
 import jakarta.persistence.*;
 import lombok.*;
+import org.springframework.lang.Nullable;
 
 import java.sql.Timestamp;
 import java.util.List;
@@ -18,6 +19,7 @@ public class PedidoEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_pedido")
     private Long id_pedido;
+
     @Column(name = "fecha_inicio_pedido", nullable = false)
     private Timestamp fecha_inicio_pedido;
 
@@ -41,6 +43,17 @@ public class PedidoEntity {
 
     @Column(name = "date_delet")
     private Timestamp dateDelet;
+
+
+    @ManyToOne
+    @JoinColumn(name = "id_cliente")
+    private ClienteEntity cliente;
+
+
+    @OneToOne
+    @JoinColumn(name = "id_factura")
+    private FacturaEntity factura;
+
 /*
     @OneToMany(mappedBy = "pedidoEntity")
     private List<FacturaEntity> facturas;
