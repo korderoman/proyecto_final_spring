@@ -4,8 +4,13 @@ import lombok.RequiredArgsConstructor;
 import org.grupo3.proyectofinalspring.domain.aggregates.dto.FacturaDTO;
 import org.grupo3.proyectofinalspring.domain.aggregates.request.RequestFactura;
 import org.grupo3.proyectofinalspring.domain.ports.on.FacturaServiceOut;
+import org.grupo3.proyectofinalspring.infraestructure.entity.CategoriaEntity;
+import org.grupo3.proyectofinalspring.infraestructure.entity.ClienteEntity;
 import org.grupo3.proyectofinalspring.infraestructure.entity.FacturaEntity;
+import org.grupo3.proyectofinalspring.infraestructure.entity.PedidoEntity;
+import org.grupo3.proyectofinalspring.infraestructure.repository.ClienteRepository;
 import org.grupo3.proyectofinalspring.infraestructure.repository.FacturaRepository;
+import org.grupo3.proyectofinalspring.infraestructure.repository.PedidoRepository;
 import org.springframework.stereotype.Service;
 
 import java.sql.Timestamp;
@@ -17,13 +22,18 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class FacturaAdapter implements FacturaServiceOut {
     private final FacturaRepository facturaRepository;
+    private final ClienteRepository clienteRepository;
+    private final PedidoRepository pedidoRepository;
     @Override
     public FacturaDTO addFacturaOut(RequestFactura requestFactura) {
         FacturaEntity facturaEntity = new FacturaEntity();
+        PedidoEntity pedidoEntity = getPedido(requestFactura.getIdPedido());
+        pedidoEntity.setId_pedido(requestFactura.getIdPedido());
         facturaEntity.setNum_factura(requestFactura.getNumFactura());
         facturaEntity.setCantidad(requestFactura.getCantidad());
         facturaEntity.setIgv(requestFactura.getIgv());
         facturaEntity.setFecha_ingreso(requestFactura.getFechaIngreso());
+        facturaEntity.setEstado(requestFactura.getEstado());
         facturaEntity.setUsuaCrea("Henry Medina");
         facturaEntity.setDateCreate(getTimestamp());
         FacturaEntity facturaEntity1 = facturaRepository.save(facturaEntity);
@@ -58,6 +68,7 @@ public class FacturaAdapter implements FacturaServiceOut {
         factura.setIgv(requestFactura.getIgv());
         factura.setFecha_ingreso(requestFactura.getFechaIngreso());
         factura.setUsuaModif("Henry Medina");
+        factura.setEstado(requestFactura.getEstado());
         factura.setDateModif(getTimestamp());
         FacturaEntity facturaUpdate = facturaRepository.save(factura);
         return  FacturaEntityToDto(facturaUpdate);
@@ -87,11 +98,27 @@ public class FacturaAdapter implements FacturaServiceOut {
 
     private FacturaDTO FacturaEntityToDto(FacturaEntity facturaEntity){
         FacturaDTO facturaDTO = new FacturaDTO();
+        //facturaDTO.setIdPedido(facturaEntity);
         facturaDTO.setIdFactura(facturaEntity.getId_factura());
         facturaDTO.setNumFactura(facturaEntity.getNum_factura());
         facturaDTO.setCantidad(facturaEntity.getCantidad());
         facturaDTO.setIgv(facturaEntity.getIgv());
         return facturaDTO;
+    }
+
+    private ClienteEntity getCliente(Long id_cliente){
+        Optional<ClienteEntity> clienteEntity = clienteRepository.findById(id_cliente);
+        if(clienteEntity.isPresent()){
+            return clienteEntity.get();
+        }
+        return null;
+    }
+    private PedidoEntity getPedido(Long id_pedido){
+        Optional<PedidoEntity> pedidoEntity = pedidoRepository.findById(id_pedido);
+        if(pedidoEntity.isPresent()){
+            return pedidoEntity.get();
+        }
+        return null;
     }
 }
 

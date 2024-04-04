@@ -62,4 +62,5 @@ public class ProductoEntity {
     private List<CaracteristicasEntity> caracteristicas;
     private Double precio;
 
+
 }

@@ -11,6 +11,7 @@ import java.sql.Timestamp;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class PedidoDTO {
     private Long idPedido;
+    private Long idCliente;
     private Timestamp fechaInicioPedido;
     private Integer estado;
     private String usuaCrea;

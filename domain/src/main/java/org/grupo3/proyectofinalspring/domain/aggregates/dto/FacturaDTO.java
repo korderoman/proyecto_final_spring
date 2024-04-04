@@ -11,6 +11,7 @@ import java.sql.Timestamp;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class FacturaDTO {
     private Long idFactura;
+    private Long idPedido;
     private String numFactura;
     private int cantidad;
     private double igv;

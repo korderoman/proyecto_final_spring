@@ -5,6 +5,7 @@ import lombok.*;
 import org.grupo3.proyectofinalspring.domain.aggregates.dto.DireccionDTO;
 
 import java.sql.Timestamp;
+import java.util.List;
 
 @Entity
 @Getter
@@ -49,4 +50,11 @@ public class ClienteEntity {
     @OneToOne
     @JoinColumn(name = "id_direccion")
     private DireccionEntity direccionEntity;
+
+    @OneToMany(mappedBy = "cliente", cascade = CascadeType.ALL)
+    private List<PedidoEntity> pedidos;
+
+    /*
+    @OneToOne(mappedBy = "clienteEntity")
+    private FacturaEntity facturaEntity;*/
 }
