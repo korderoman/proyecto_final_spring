@@ -1,5 +1,6 @@
 package org.grupo3.proyectofinalspring.domain.aggregates.response;
 
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -7,6 +8,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @NoArgsConstructor
+@AllArgsConstructor
 public class ResponseReniec {
     private String nombres;
     private String apellidoPaterno;
