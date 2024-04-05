@@ -1,12 +1,16 @@
 package org.grupo3.proyectofinalspring.domain.aggregates.request;
 
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.util.List;
 
 @Setter
 @Getter
+@AllArgsConstructor
+@NoArgsConstructor
 public class RequestPedido {
     private Long idCliente;
     private Integer estado;
