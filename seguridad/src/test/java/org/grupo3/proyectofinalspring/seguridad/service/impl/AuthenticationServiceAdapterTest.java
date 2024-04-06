@@ -24,7 +24,6 @@ import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -141,15 +140,6 @@ class AuthenticationServiceAdapterTest {
         when(clienteRepository.findById(anyLong())).thenReturn(clienteGuardado);
 
         assertThrows(Exception.class,() -> authenticationServiceAdapter.signUpCliente(signUpRequest));
-
-    }
-    @Test
-    void signUpAdminSuccess() {
-
-    }
-
-    @Test
-    void signUpAdminUnauthorized() {
 
     }
 

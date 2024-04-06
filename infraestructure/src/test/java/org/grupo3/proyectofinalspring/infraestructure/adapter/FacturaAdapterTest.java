@@ -2,7 +2,6 @@ package org.grupo3.proyectofinalspring.infraestructure.adapter;
 
 import org.grupo3.proyectofinalspring.domain.aggregates.dto.FacturaDTO;
 import org.grupo3.proyectofinalspring.domain.aggregates.request.RequestFactura;
-import org.grupo3.proyectofinalspring.infraestructure.adapter.FacturaAdapter;
 import org.grupo3.proyectofinalspring.infraestructure.entity.FacturaEntity;
 import org.grupo3.proyectofinalspring.infraestructure.entity.PedidoEntity;
 import org.grupo3.proyectofinalspring.infraestructure.repository.FacturaRepository;
@@ -12,7 +11,6 @@ import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-import org.springframework.format.annotation.DateTimeFormat;
 
 import java.sql.Timestamp;
 import java.util.ArrayList;

@@ -3,13 +3,6 @@ package org.grupo3.proyectofinalspring.infraestructure.adapter;
 import org.grupo3.proyectofinalspring.domain.aggregates.dto.PedidoDTO;
 import org.grupo3.proyectofinalspring.domain.aggregates.request.RequestPedido;
 import org.grupo3.proyectofinalspring.domain.ports.on.PedidoServiceOut;
-import org.grupo3.proyectofinalspring.infraestructure.entity.ClienteEntity;
-import org.grupo3.proyectofinalspring.infraestructure.entity.PedidoEntity;
-import org.grupo3.proyectofinalspring.infraestructure.entity.ProductoEntity;
-import org.grupo3.proyectofinalspring.infraestructure.repository.ClienteRepository;
-import org.grupo3.proyectofinalspring.infraestructure.repository.PedidoProductoRepository;
-import org.grupo3.proyectofinalspring.infraestructure.repository.PedidoRepository;
-import org.grupo3.proyectofinalspring.infraestructure.repository.ProductoRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
@@ -19,7 +12,6 @@ import org.mockito.MockitoAnnotations;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
@@ -31,17 +23,6 @@ class PedidoAdapterTest {
     private PedidoAdapter pedidoAdapter;
     @Mock
     private PedidoServiceOut pedidoService;
-    @Mock
-    private PedidoRepository pedidoRepository;
-
-    @Mock
-    private ClienteRepository clienteRepository;
-
-    @Mock
-    private ProductoRepository productoRepository;
-
-    @Mock
-    private PedidoProductoRepository pedidoProductoRepository;
 
     @BeforeEach
     void setUp() {
