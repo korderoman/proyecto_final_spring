@@ -48,10 +48,6 @@ class PedidoAdapterTest {
         MockitoAnnotations.initMocks(this);
     }
 
-    @Test
-    void crearPedidoOutSuccess() {
-
-    }
 
     @Test
     void crearPedidoOutError() {
