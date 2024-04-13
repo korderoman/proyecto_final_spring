@@ -1,6 +1,7 @@
 package org.grupo3.proyectofinalspring.seguridad.service.impl;
 
 import lombok.RequiredArgsConstructor;
+import org.grupo3.proyectofinalspring.domain.aggregates.dto.ClienteDTO;
 import org.grupo3.proyectofinalspring.domain.aggregates.dto.UsuarioDTO;
 import org.grupo3.proyectofinalspring.domain.aggregates.request.SignInRequest;
 import org.grupo3.proyectofinalspring.domain.aggregates.request.SignUpRequest;
@@ -28,6 +29,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.sql.Timestamp;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
@@ -45,6 +47,7 @@ public class AuthenticationServiceAdapter implements AuthenticationService {
     private final ClienteReniec clienteReniec;
     @Value("${token.api}")
     private String tokenApi;
+
     @Transactional //para que maneje los rollbacks ya que estamos insertando datos de muchas entidades.
     @Override
     public ResponseEntity<UsuarioDTO> signUpCliente(SignUpRequest signUpRequest) {
@@ -54,12 +57,13 @@ public class AuthenticationServiceAdapter implements AuthenticationService {
         Optional<ClienteEntity> clienteGuardado = registerCLienteWithReniec(signUpRequest, direccionGuardada);
         //roles
         Set<RolEntity> rolEntitySet = new HashSet<>();
-        Optional <RolEntity> rol  = rolRepository.findByNombreRol("USER");
-        if(rol.isEmpty()) throw new ProcessException("El rol no se encontró en la base de datos.");
+        Optional<RolEntity> rol = rolRepository.findByNombreRol("USER");
+        if (rol.isEmpty()) throw new ProcessException("El rol no se encontró en la base de datos.");
         rolEntitySet.add(rol.get());
         //usuario
-        return ResponseEntity.status(HttpStatus.CREATED).body(registerUsuario(signUpRequest, clienteGuardado,rolEntitySet));
+        return ResponseEntity.status(HttpStatus.CREATED).body(registerUsuario(signUpRequest, clienteGuardado, rolEntitySet));
     }
+
     @Transactional
     @Override
     public ResponseEntity<UsuarioDTO> signUpAdmin(SignUpRequest signUpRequest) {
@@ -69,21 +73,21 @@ public class AuthenticationServiceAdapter implements AuthenticationService {
         Optional<ClienteEntity> clienteGuardado = registerCLienteWithReniec(signUpRequest, direccionGuardada);
         //roles
         Set<RolEntity> rolEntitySet = new HashSet<>();
-        Optional <RolEntity> rol1  = rolRepository.findByNombreRol("USER");
-        if(rol1.isEmpty()) throw new ProcessException("El rol USER no se encontró en la base de datos.");
-        Optional <RolEntity> rol2 = rolRepository.findByNombreRol("ADMIN");
-        if(rol2.isEmpty()) throw new ProcessException("El rol ADMIN no se encontró en la base de datos.");
+        Optional<RolEntity> rol1 = rolRepository.findByNombreRol("USER");
+        if (rol1.isEmpty()) throw new ProcessException("El rol USER no se encontró en la base de datos.");
+        Optional<RolEntity> rol2 = rolRepository.findByNombreRol("ADMIN");
+        if (rol2.isEmpty()) throw new ProcessException("El rol ADMIN no se encontró en la base de datos.");
 
         rolEntitySet.add(rol1.get());
         rolEntitySet.add(rol2.get());
         //usuario
-        return ResponseEntity.status(HttpStatus.CREATED).body(registerUsuario(signUpRequest, clienteGuardado,rolEntitySet));
+        return ResponseEntity.status(HttpStatus.CREATED).body(registerUsuario(signUpRequest, clienteGuardado, rolEntitySet));
     }
 
     @Override
     public AuthenticationResponse signIn(SignInRequest signInRequest) throws Exception {
         authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(
-                signInRequest.getUsername(),signInRequest.getPassword()));
+                signInRequest.getUsername(), signInRequest.getPassword()));
         try {
             AuthenticationResponse jwt = new AuthenticationResponse();
             Optional<UsuarioEntity> user = usuarioRepository.findByNomUsuario(signInRequest.getUsername());
@@ -94,7 +98,7 @@ public class AuthenticationServiceAdapter implements AuthenticationService {
             // verificar la contraseña
             if (verifyPassword(signInRequest.getPassword(), user.get().getPassword())) {
                 jwt.setToken(jwtService.generateToken(user.get()));
-            } else{
+            } else {
                 jwt.setToken("la authenticación falló");
             }
             return jwt;
@@ -102,9 +106,15 @@ public class AuthenticationServiceAdapter implements AuthenticationService {
             throw new Exception(e.toString());
         }
     }
-    private Optional<ClienteEntity> registerCLienteWithReniec(SignUpRequest signUpRequest, Optional<DireccionEntity> direccionGuardada){
+
+    @Override
+    public ResponseEntity<List<ClienteEntity>> listClientes() {
+        return ResponseEntity.status(HttpStatus.OK).body(clienteRepository.findAll());
+    }
+
+    private Optional<ClienteEntity> registerCLienteWithReniec(SignUpRequest signUpRequest, Optional<DireccionEntity> direccionGuardada) {
         //reniec
-        ResponseReniec responseReniec= getExecutionReniec(signUpRequest.getDni());
+        ResponseReniec responseReniec = getExecutionReniec(signUpRequest.getDni());
         //cliente
         ClienteEntity clienteEntity = clienteRepository.save(ClienteEntity.builder()
                 .nombres(responseReniec.getNombres())
@@ -114,14 +124,17 @@ public class AuthenticationServiceAdapter implements AuthenticationService {
                 .direccionEntity(direccionGuardada.get())
                 .estado(1)
                 .usuaCrea(signUpRequest.getNomUsuario()).build());
-        Optional<ClienteEntity> clienteGuardado= clienteRepository.findById(clienteEntity.getIdCliente());
-        if(clienteGuardado.isEmpty()) throw new ProcessException("El cliente no se pudo guardar en la base de datos");
+        Optional<ClienteEntity> clienteGuardado = clienteRepository.findById(clienteEntity.getIdCliente());
+        if (clienteGuardado.isEmpty()) throw new ProcessException("El cliente no se pudo guardar en la base de datos");
         return clienteGuardado;
     }
-    private Optional<DireccionEntity> registerDireccion(SignUpRequest signUpRequest){
+
+    private Optional<DireccionEntity> registerDireccion(SignUpRequest signUpRequest) {
         //validar datos
-        if(clienteRepository.existsByDni(signUpRequest.getDni())) throw new ProcessException("El DNI ya existe en la Base de datos");
-        if(direccionRepository.existsByEmail(signUpRequest.getEmail())) throw new ProcessException("El email ya existe en la Base de datos");
+        if (clienteRepository.existsByDni(signUpRequest.getDni()))
+            throw new ProcessException("El DNI ya existe en la Base de datos");
+        if (direccionRepository.existsByEmail(signUpRequest.getEmail()))
+            throw new ProcessException("El email ya existe en la Base de datos");
         //direccion
         DireccionEntity direccionEntity = direccionRepository.save(DireccionEntity.builder()
                 .direccion(signUpRequest.getDireccion())
@@ -136,12 +149,15 @@ public class AuthenticationServiceAdapter implements AuthenticationService {
                 .estado(1)
                 .usuaCrea(signUpRequest.getNomUsuario())
                 .build());
-        Optional <DireccionEntity> direccionGuardada= direccionRepository.findById(direccionEntity.getIdDireccion());
-        if(direccionGuardada.isEmpty()) throw new ProcessException("La dirección no se pudo guardar en la base de datos.");
+        Optional<DireccionEntity> direccionGuardada = direccionRepository.findById(direccionEntity.getIdDireccion());
+        if (direccionGuardada.isEmpty())
+            throw new ProcessException("La dirección no se pudo guardar en la base de datos.");
         return direccionGuardada;
     }
-    private UsuarioDTO registerUsuario(SignUpRequest signUpRequest, Optional<ClienteEntity> clienteGuardado, Set<RolEntity> rolEntitySet){
-        if(usuarioRepository.existsByNomUsuario(signUpRequest.getNomUsuario())) throw new ProcessException("El nombre de usuario ya existe en la base de datos");
+
+    private UsuarioDTO registerUsuario(SignUpRequest signUpRequest, Optional<ClienteEntity> clienteGuardado, Set<RolEntity> rolEntitySet) {
+        if (usuarioRepository.existsByNomUsuario(signUpRequest.getNomUsuario()))
+            throw new ProcessException("El nombre de usuario ya existe en la base de datos");
         return usuarioMapper.mapUsuarioToDto(usuarioRepository.save(UsuarioEntity.builder()
                 .clienteEntity(clienteGuardado.get())
                 .nomUsuario(signUpRequest.getNomUsuario())
@@ -156,10 +172,12 @@ public class AuthenticationServiceAdapter implements AuthenticationService {
                 .credentialsnonexpired(true)
                 .build()));
     }
-    public ResponseReniec getExecutionReniec(String numero){
-        String authorization = "Bearer "+tokenApi;
-            return clienteReniec.getInfoReniec(numero,authorization);
+
+    public ResponseReniec getExecutionReniec(String numero) {
+        String authorization = "Bearer " + tokenApi;
+        return clienteReniec.getInfoReniec(numero, authorization);
     }
+
     private boolean verifyPassword(String enteredPassword, String storedPassword) {
         BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
         return encoder.matches(enteredPassword, storedPassword); // si hace match true, si no false

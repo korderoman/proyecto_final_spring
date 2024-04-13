@@ -34,7 +34,8 @@ public class SecurityConfiguration {
                                 .requestMatchers("/api/v1/authentication/**").permitAll()
                                 .requestMatchers("/v3/api-docs/**", "/swagger-ui/**", "/swagger-ui.html").permitAll()
                                 .requestMatchers("/api/v1/admin/authentication/**").hasAnyRole("ADMIN", "SUPERADMIN")
-                                .anyRequest().authenticated()
+                                .requestMatchers("/api/v1/clientes").hasAnyRole("ADMIN","SUPERADMIN")
+                                .anyRequest().hasAnyRole("USER","ADMIN","SUPERADMIN")
                 )
                 .sessionManagement(manager -> manager.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authenticationProvider(authenticationProvider()).addFilterBefore(
