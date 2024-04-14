@@ -4,11 +4,11 @@
     <parent>
         <groupId>org.grupo3</groupId>
         <artifactId>ecommerce</artifactId>
-        <version>0.0.1-SNAPSHOT</version>
+        <version>2.0.0</version>
     </parent>
 
     <artifactId>seguridad</artifactId>
-    <version>0.0.1</version>
+    <version>2.0.0</version>
     <name>Archetype - seguridad</name>
     <url>http://maven.apache.org</url>
 
@@ -16,12 +16,12 @@
         <dependency>
             <groupId>org.grupo3</groupId>
             <artifactId>domain</artifactId>
-            <version>0.0.1</version>
+            <version>2.0.0</version>
         </dependency>
         <dependency>
             <groupId>org.grupo3</groupId>
             <artifactId>infraestructure</artifactId>
-            <version>0.0.1</version>
+            <version>2.0.0</version>
         </dependency>
     </dependencies>
 </project>
